@@ -21,8 +21,8 @@ def test_print_happy3() :
 
 if __name__ == "__main__":
 #    test_print_happy()
-#    test_print_happy2()
-    test_print_happy3()
+    test_print_happy2()
+#    test_print_happy3()
 
 
  
