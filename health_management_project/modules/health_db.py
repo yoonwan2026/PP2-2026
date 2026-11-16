@@ -146,3 +146,49 @@ class HealthManager:
 
         except (OSError, ValueError, KeyError, IndexError, json.JSONDecodeError, pickle.UnpicklingError) as e:
             print("파일을 읽는 중 오류가 발생했습니다:", e)
+            
+if __name__ == "__main__":
+
+    # 1. 건강정보 입력
+    manager = HealthManager()
+
+    manager.add_record(
+        "홍길동", 1995, "남",
+        175.0, 72.5, 23.67, "과체중"
+    )
+
+    manager.add_record(
+        "김영희", 1998, "여",
+        162.0, 52.0, 19.81, "정상"
+    )
+
+    # 2. 입력한 원래 데이터 출력
+    print("===== 원래 데이터 =====")
+    print(manager.records)
+
+    # 원래 데이터 따로 보관
+    original_records = manager.records.copy()
+
+    # 3. 4가지 파일로 저장하고 다시 불러오기
+    for file_type in ["json", "csv", "txt", "pkl"]:
+
+        print(f"\n===== {file_type} 파일 테스트 =====")
+
+        # 파일 저장
+        manager.save_data(file_type)
+
+        # 새로운 관리자 객체 생성
+        test_manager = HealthManager()
+
+        # 파일 불러오기
+        test_manager.load_data(file_type)
+
+        # 불러온 데이터 출력
+        print("불러온 데이터:")
+        print(test_manager.records)
+
+        # 원래 데이터와 비교
+        if original_records == test_manager.records:
+            print("검증 성공: 원래 데이터와 일치합니다.")
+        else:
+            print("검증 실패: 원래 데이터와 다릅니다.")
